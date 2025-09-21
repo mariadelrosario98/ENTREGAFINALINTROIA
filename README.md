@@ -21,7 +21,7 @@ El flujo de trabajo está diseñado para:
 
 - Monitorear portales de empleo.  
 - Analizar las ofertas que te interesan.  
-- Generar versiones personalizadas de tu CV para cada puesto.  
+- Generar la identificación del trabajo más adecuado para tu perfil profesional
 
 ---
 
@@ -60,6 +60,6 @@ El flujo de trabajo está diseñado para:
 
 ---
 
-Con **CV Genius**, tu búsqueda laboral se vuelve **más inteligente, rápida y efectiva**. No dejes que la sobrecarga de información te detenga.  
+Con **el JobMatch Automator**, tu búsqueda laboral se vuelve **más inteligente, rápida y efectiva**. No dejes que la sobrecarga de información te detenga.  
 
 ✨ **Automatiza tu camino hacia el éxito profesional.**
