@@ -1,0 +1,318 @@
+{
+  "name": "AI",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -240,
+        112
+      ],
+      "id": "3e634650-5f6a-411a-b6a9-b529b5ef7fa4",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://api.adzuna.com/v1/api/jobs/us/search/1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "app_id",
+              "value": "de467939"
+            },
+            {
+              "name": "app_key",
+              "value": "a571d047272fdfe596b1bd0b7e4c31fe\t"
+            },
+            {
+              "name": "what",
+              "value": "data analyst remote"
+            },
+            {
+              "name": "results_per_page",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -16,
+        112
+      ],
+      "id": "e89b766d-b609-4eae-a122-067b4b62e611",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "=results",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        192,
+        112
+      ],
+      "id": "e58ee7a1-bdb3-437d-8f85-b914de99e55b",
+      "name": "Split Out",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Using the following job data:\n{{$json[\"results\"][\"description\"]}}\n\nCreate a one-page CV in HTML format. \nReturn only valid HTML. \nDo not include markdown, code fences, or explanations.\n",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        432,
+        112
+      ],
+      "id": "0b734753-0020-4d24-add2-0d851249c0f4",
+      "name": "Basic LLM Chain1"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.1-8b-instant",
+        "options": {
+          "maxTokensToSample": 800,
+          "temperature": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        576,
+        -80
+      ],
+      "id": "368eb9e8-bd3b-4f32-a433-c8998b6f2801",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "YAOAazZy82qcSiML",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "17492ae9-6207-4b6b-9e12-72e366a11d3a",
+              "name": "html",
+              "value": "={{$json[\"text\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        112
+      ],
+      "id": "aa0c4191-fdf8-469b-b2f8-d36129615c66",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        784,
+        112
+      ],
+      "id": "75327ec3-f802-4f85-897e-4a2f77ec89c4",
+      "name": "Wait",
+      "webhookId": "1dc116b0-a706-407e-8ce5-48e18555d3f5"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "=17t1bKhmoDO37L0AVfaizAGXFZnOP3JPi",
+          "mode": "id"
+        },
+        "options": {
+          "googleFileConversion": {
+            "conversion": {
+              "docsToFormat": "application/pdf"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1248,
+        112
+      ],
+      "id": "d08d89d8-89fe-4103-a77d-3113d94bcdf6",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ZsXNFd2kESOZ0kaU",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "gonza.santi20@gmail.com",
+        "subject": "=Job Application – {{ $node[\"HTTP Request\"].json[\"results\"][0][\"title\"] }}\n  ",
+        "message": "=Hello,<br><br>\nPlease find attached my CV in PDF format.<br><br>\nJob application link:<br>\n{{$node[\"HTTP Request\"].json[\"results\"][0][\"redirect_url\"]}}<br><br>\nRegards,<br>\nn8n Bot\n",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {}
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1440,
+        112
+      ],
+      "id": "24753def-5798-4075-abbf-08cfa543b970",
+      "name": "Send a message",
+      "webhookId": "8bb6e365-9b1a-409d-9b1e-ddbbaa6980e3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EwvYNyI0KG46NTZm",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "da997e72-1a3b-44a4-a8b3-ffb050d06be4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "84f0d82d3519b3a9dc176b237fe2e77babace059dc6850cd6b6c4d8250a3d6be"
+  },
+  "id": "AVDKWfOFwUITcXHD",
+  "tags": []
+}
