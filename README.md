@@ -67,7 +67,7 @@ Con **el JobMatch Automator**, tu búsqueda laboral se vuelve **más inteligente
 
 --------------------------------------------------
 
-# ⚡ Velocidad de Desarrollo y Mantenimiento
+# ⚡ Justificación de la tecnología - ¿por qué usar n8n?
 
 Una de las mayores ventajas de **n8n** es la **rapidez de desarrollo**. Construir una automatización con su interfaz visual de **arrastrar y soltar** es mucho más rápido que escribir todo el código desde cero.  
 
