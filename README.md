@@ -60,7 +60,6 @@ El flujo de trabajo está diseñado para:
 
 ---
 
-Con **CV Genius**, tu búsqueda laboral se vuelve **más inteligente, rápida y efectiva**.  
-No dejes que la sobrecarga de información te detenga.  
+Con **CV Genius**, tu búsqueda laboral se vuelve **más inteligente, rápida y efectiva**. No dejes que la sobrecarga de información te detenga.  
 
 ✨ **Automatiza tu camino hacia el éxito profesional.**
