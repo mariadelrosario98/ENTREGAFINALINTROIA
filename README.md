@@ -1,7 +1,6 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/<USUARIO>/<REPO>/main/flujo.png" alt="Flujo n8n" width="100%">
+  <img src="https://raw.githubusercontent.com/mariadelrosario98/ENTREGAFINALINTROIA/main/flujo.png" alt="Flujo n8n" width="100%">
 </p>
-
 
 
 # JobMatch Automator
