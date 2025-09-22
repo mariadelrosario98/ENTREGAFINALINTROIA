@@ -1,8 +1,3 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/<USUARIO>/<REPOSITORIO>/main/imagenes/flujo.png" alt="Flujo n8n" width="100%">
-</p>
-
-
 # JobMatch Automator
 
 ## 📌 El Problema
